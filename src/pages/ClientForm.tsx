@@ -32,11 +32,11 @@ export default function ClientForm() {
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFiles = Array.from(e.target.files || []);
-        const maxSize = 5 * 1024 * 1024; // 5MB per file
+        const maxSize = 50 * 1024 * 1024; // 50MB per file
 
         const validFiles = selectedFiles.filter(file => {
             if (file.size > maxSize) {
-                toast.error(`${file.name} is too large. Max size is 5MB.`);
+                toast.error(`${file.name} is too large. Max size is 50MB.`);
                 return false;
             }
             return true;
@@ -280,7 +280,7 @@ export default function ClientForm() {
                                         Sample Files (Optional)
                                     </label>
                                     <p className="text-sm text-muted-foreground mb-3">
-                                        Upload any sample files, references, or documents (Max 5MB per file)
+                                        Upload any sample files, references, or documents (Max 50MB per file)
                                     </p>
 
                                     <div className="space-y-4">
@@ -292,7 +292,7 @@ export default function ClientForm() {
                                                     <span className="font-semibold text-accent">Click to upload</span> or drag and drop
                                                 </p>
                                                 <p className="text-xs text-muted-foreground">
-                                                    PNG, JPG, PDF, DOC (Max 5MB)
+                                                    PNG, JPG, PDF, DOC (Max 50MB)
                                                 </p>
                                             </div>
                                             <input
