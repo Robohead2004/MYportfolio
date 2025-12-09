@@ -1,0 +1,295 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+  RISHIDAR Portfolio Design System
+  Premium, founder-focused aesthetic
+  Colors: Deep charcoal + warm amber/gold on cream
+*/
+
+@layer base {
+  :root {
+    /* Background tones - warm cream base */
+    --background: 40 33% 98%;
+    --foreground: 220 20% 10%;
+
+    /* Card surfaces */
+    --card: 40 25% 97%;
+    --card-foreground: 220 20% 10%;
+
+    /* Popover */
+    --popover: 40 33% 98%;
+    --popover-foreground: 220 20% 10%;
+
+    /* Primary - Deep charcoal */
+    --primary: 220 20% 12%;
+    --primary-foreground: 40 33% 98%;
+
+    /* Secondary - Soft gray */
+    --secondary: 220 10% 94%;
+    --secondary-foreground: 220 20% 15%;
+
+    /* Muted tones */
+    --muted: 220 10% 92%;
+    --muted-foreground: 220 10% 45%;
+
+    /* Accent - Warm amber/gold */
+    --accent: 38 92% 50%;
+    --accent-foreground: 220 20% 10%;
+
+    /* Accent variants */
+    --accent-light: 40 100% 70%;
+    --accent-dark: 35 90% 42%;
+
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Border and inputs */
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 38 92% 50%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar */
+    --sidebar-background: 40 25% 97%;
+    --sidebar-foreground: 220 20% 10%;
+    --sidebar-primary: 220 20% 12%;
+    --sidebar-primary-foreground: 40 33% 98%;
+    --sidebar-accent: 38 92% 50%;
+    --sidebar-accent-foreground: 220 20% 10%;
+    --sidebar-border: 220 15% 88%;
+    --sidebar-ring: 38 92% 50%;
+  }
+
+  .dark {
+    --background: 220 20% 8%;
+    --foreground: 40 20% 95%;
+
+    --card: 220 18% 12%;
+    --card-foreground: 40 20% 95%;
+
+    --popover: 220 20% 8%;
+    --popover-foreground: 40 20% 95%;
+
+    --primary: 40 20% 95%;
+    --primary-foreground: 220 20% 8%;
+
+    --secondary: 220 15% 18%;
+    --secondary-foreground: 40 20% 95%;
+
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 55%;
+
+    --accent: 38 92% 50%;
+    --accent-foreground: 220 20% 8%;
+
+    --accent-light: 40 100% 60%;
+    --accent-dark: 35 90% 42%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 38 92% 50%;
+
+    --sidebar-background: 220 18% 10%;
+    --sidebar-foreground: 40 20% 95%;
+    --sidebar-primary: 38 92% 50%;
+    --sidebar-primary-foreground: 220 20% 8%;
+    --sidebar-accent: 220 15% 18%;
+    --sidebar-accent-foreground: 40 20% 95%;
+    --sidebar-border: 220 15% 20%;
+    --sidebar-ring: 38 92% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer utilities {
+  /* Text gradient utility */
+  .text-gradient {
+    @apply bg-gradient-to-r from-accent via-accent-light to-accent bg-clip-text text-transparent;
+  }
+
+  /* Subtle glow effect */
+  .glow-accent {
+    box-shadow: 0 0 40px hsl(var(--accent) / 0.15);
+  }
+
+  /* Premium card shadow */
+  .shadow-premium {
+    box-shadow: 
+      0 1px 2px hsl(var(--foreground) / 0.02),
+      0 4px 8px hsl(var(--foreground) / 0.03),
+      0 16px 32px hsl(var(--foreground) / 0.04);
+  }
+
+  /* Elevated shadow */
+  .shadow-elevated {
+    box-shadow: 
+      0 4px 6px hsl(var(--foreground) / 0.03),
+      0 12px 24px hsl(var(--foreground) / 0.06),
+      0 24px 48px hsl(var(--foreground) / 0.08);
+  }
+
+  /* Section padding */
+  .section-padding {
+    @apply py-20 md:py-28 lg:py-32;
+  }
+
+  /* Container max width */
+  .container-narrow {
+    @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-wide {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Selection */
+::selection {
+  background: hsl(var(--accent) / 0.2);
+  color: hsl(var(--foreground));
+}
+
+/* Custom Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Animation utility classes */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
+}
+
+.animate-slide-in {
+  animation: slide-in 0.5s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+/* Hover effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px hsl(var(--accent) / 0.3);
+  border-color: hsl(var(--accent) / 0.5);
+}
