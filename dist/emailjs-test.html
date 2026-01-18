@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmailJS Test</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <h1>EmailJS Test</h1>
+    <button onclick="testEmail()">Send Test Email</button>
+    <div id="result"></div>
+
+    <script>
+        function testEmail() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Sending...';
+
+            // Your EmailJS credentials
+            const serviceId = 'service_5kou4jg';
+            const templateId = 'template_af4xrmb';
+            const publicKey = 'c0WxzZoG8RzHkOLXW';
+
+            // Template parameters
+            const templateParams = {
+                from_name: 'Test Name',
+                from_mobile: '1234567890',
+                budget: '$5000',
+                duration: '2 weeks',
+                category: 'Web Development',
+                notes: 'This is a test email',
+                to_email: 'rishidar27@gmail.com'
+            };
+
+            emailjs.send(serviceId, templateId, templateParams, publicKey)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    resultDiv.innerHTML = '<p style="color: green;">✅ Email sent successfully! Check rishidar27@gmail.com</p>';
+                    resultDiv.innerHTML += '<p>Response: ' + JSON.stringify(response) + '</p>';
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    resultDiv.innerHTML = '<p style="color: red;">❌ Failed to send email</p>';
+                    resultDiv.innerHTML += '<p>Error: ' + JSON.stringify(error) + '</p>';
+                    
+                    // Show specific error details
+                    if (error.text) {
+                        resultDiv.innerHTML += '<p><strong>Error message:</strong> ' + error.text + '</p>';
+                    }
+                    if (error.status) {
+                        resultDiv.innerHTML += '<p><strong>Status code:</strong> ' + error.status + '</p>';
+                    }
+                });
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 15px 32px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #f9f9f9;
+        }
+    </style>
+</body>
+</html>

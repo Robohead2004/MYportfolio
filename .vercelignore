@@ -1,0 +1,4 @@
+bun.lockb
+.qodo
+node_modules
+.env.local
