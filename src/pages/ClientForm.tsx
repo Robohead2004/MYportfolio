@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import emailjs from '@emailjs/browser';
 import { emailConfig } from '@/config/emailjs.config';
+import { cloudinaryConfig, getCloudinaryUploadUrl } from '@/config/cloudinary.config';
+
 
 export default function ClientForm() {
     const navigate = useNavigate();
@@ -59,6 +61,30 @@ export default function ClientForm() {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // Upload a single file to Cloudinary
+    const uploadFileToCloudinary = async (file: File): Promise<{ url: string; name: string; size: number }> => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', cloudinaryConfig.uploadPreset);
+        formData.append('folder', 'portfolio/client-uploads');
+
+        const response = await fetch(getCloudinaryUploadUrl(), {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to upload ${file.name}`);
+        }
+
+        const data = await response.json();
+        return {
+            url: data.secure_url,
+            name: file.name,
+            size: file.size,
+        };
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const { budget, duration, category, name, mobile, notes } = formData;
@@ -70,23 +96,35 @@ export default function ClientForm() {
         setIsSubmitting(true);
 
         try {
-            // Convert files to base64 for EmailJS
-            const fileAttachments = await Promise.all(
-                files.map(async (file) => {
-                    return new Promise<string>((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = () => {
-                            resolve(reader.result as string);
-                        };
-                        reader.readAsDataURL(file);
-                    });
-                })
-            );
+            console.log("🔵 Starting form submission...");
 
-            // Create file list for email body
-            const filesList = files.map((file, index) =>
-                `${index + 1}. ${file.name} (${formatFileSize(file.size)})`
-            ).join('\n') || 'No files attached';
+            // Upload files to Cloudinary (if any)
+            let uploadedFiles: Array<{ url: string; name: string; size: number }> = [];
+
+            if (files.length > 0) {
+                console.log(`📤 Uploading ${files.length} files to Cloudinary...`);
+                toast.info(`Uploading ${files.length} file${files.length > 1 ? 's' : ''}...`);
+
+                uploadedFiles = await Promise.all(
+                    files.map(file => uploadFileToCloudinary(file))
+                );
+
+                console.log("✅ All files uploaded successfully!", uploadedFiles);
+            }
+
+            // Create file list for email body with clickable links
+            const filesList = uploadedFiles.length > 0
+                ? uploadedFiles.map((file, index) =>
+                    `${index + 1}. ${file.name} (${formatFileSize(file.size)})\nDownload: ${file.url}`
+                ).join('\n\n')
+                : 'No files attached';
+
+            // Create HTML file links for better email formatting
+            const filesHtml = uploadedFiles.length > 0
+                ? uploadedFiles.map((file, index) =>
+                    `<p><strong>${index + 1}. ${file.name}</strong> (${formatFileSize(file.size)})<br/><a href="${file.url}" target="_blank" style="color: #0066cc;">Download File</a></p>`
+                ).join('')
+                : '<p>No files attached</p>';
 
             // Send email using EmailJS
             const templateParams = {
@@ -97,14 +135,15 @@ export default function ClientForm() {
                 category: category,
                 notes: notes || "No additional notes",
                 files_list: filesList,
+                files_html: filesHtml,
+                files_count: uploadedFiles.length,
                 to_email: "rishidar27@gmail.com"
             };
 
-            console.log("🔵 Sending email with EmailJS...");
+            console.log("📧 Sending email with EmailJS...");
             console.log("Service ID:", emailConfig.serviceId);
             console.log("Template ID:", emailConfig.templateId);
-            console.log("Template Params:", templateParams);
-            console.log("Files attached:", files.length);
+            console.log("Files uploaded:", uploadedFiles.length);
 
             const response = await emailjs.send(
                 emailConfig.serviceId,
@@ -125,14 +164,15 @@ export default function ClientForm() {
                 navigate("/");
             }, 1500);
         } catch (error: any) {
-            console.error("❌ Email sending failed!");
+            console.error("❌ Submission failed!");
             console.error("Full error:", error);
-            console.error("Error status:", error.status);
-            console.error("Error text:", error.text);
 
             // Show specific error message
             let errorMessage = "Failed to submit request. ";
-            if (error.status === 400) {
+
+            if (error.message?.includes('Failed to upload')) {
+                errorMessage = "File upload failed. Please check your internet connection and try again.";
+            } else if (error.status === 400) {
                 errorMessage += "Template variables mismatch. Check console.";
             } else if (error.status === 403) {
                 errorMessage += "Invalid credentials. Check service ID and public key.";
@@ -143,6 +183,7 @@ export default function ClientForm() {
             }
 
             toast.error(errorMessage);
+        } finally {
             setIsSubmitting(false);
         }
     };
