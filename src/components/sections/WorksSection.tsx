@@ -11,31 +11,36 @@ import {
 } from "@/components/ui/carousel";
 import { ExternalLink, Download } from "lucide-react";
 
-// EDIT: Your works/projects data
+// 📸 EDIT THIS: Add your portfolio projects here
+// To add your own photos:
+// 1. Put images in the 'public' folder (e.g., public/project1.jpg)
+// 2. Reference them as "/project1.jpg" in the image field below
+// OR use Cloudinary URLs directly
+
 const works = [
     {
-        title: "Project One",
-        description: "An innovative solution for modern businesses",
-        image: "/placeholder.svg",
-        link: "#",
+        title: "E-Commerce Platform",
+        description: "Modern shopping experience with seamless checkout",
+        image: "/placeholder.svg", // Replace with: "/your-photo.jpg" or "https://cloudinary-url.jpg"
+        link: "https://example.com", // Replace with your project link
     },
     {
-        title: "Project Two",
-        description: "Creative design meets functionality",
-        image: "/placeholder.svg",
-        link: "#",
+        title: "Mobile App Design",
+        description: "Intuitive UI/UX for iOS and Android",
+        image: "/placeholder.svg", // Replace with your photo
+        link: "https://example.com",
     },
     {
-        title: "Project Three",
-        description: "Building the future of web applications",
-        image: "/placeholder.svg",
-        link: "#",
+        title: "Brand Identity",
+        description: "Complete branding solution for startups",
+        image: "/placeholder.svg", // Replace with your photo
+        link: "https://example.com",
     },
     {
-        title: "Project Four",
-        description: "Transforming ideas into reality",
-        image: "/placeholder.svg",
-        link: "#",
+        title: "Web Dashboard",
+        description: "Analytics dashboard with real-time data",
+        image: "/placeholder.svg", // Replace with your photo
+        link: "https://example.com",
     },
 ];
 

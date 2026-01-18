@@ -63,9 +63,9 @@ export const HeroSection = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                {/* Replace /placeholder.svg with your actual photo */}
+                {/* Your profile photo */}
                 <img
-                  src="/placeholder.svg"
+                  src="/profile-photo.jpg"
                   alt="Rishidar"
                   className="w-full h-full object-cover"
                 />
@@ -95,9 +95,9 @@ export const HeroSection = () => {
                 whileHover={{ scale: 1.05, rotate: 0, boxShadow: "0 20px 40px rgba(0,0,0,0.2)" }}
                 transition={{ duration: 0.3 }}
               >
-                {/* Replace /placeholder.svg with your actual photo */}
+                {/* Your profile photo */}
                 <img
-                  src="/placeholder.svg"
+                  src="/profile-photo.jpg"
                   alt="Rishidar"
                   className="w-full h-full object-cover"
                 />
